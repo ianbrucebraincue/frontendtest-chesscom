@@ -1,11 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import ChessBoard from './components/ChessBoard.vue'
+</script>
 
 <template>
-  <main></main>
+  <main>
+    <ChessBoard />
+  </main>
 </template>
 
-<style scoped lang="scss">
-.font-bold {
-  font-weight: bold;
-}
-</style>
+<style scoped lang="scss"></style>

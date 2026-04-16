@@ -1,0 +1,11 @@
+/* _mixins.scss */
+
+@use 'tokens' as tokens;
+
+@mixin up($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: tokens.$mobile) {
+      @content;
+    }
+  }
+}

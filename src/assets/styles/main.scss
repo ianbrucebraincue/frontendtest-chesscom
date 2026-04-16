@@ -1,13 +1,5 @@
 /* main.scss */
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: var(--color-square-light);
-  min-height: 100vh;
-  width: 100%;
-  max-width: 100%;
-  background-color: var(--color-bg);
-}
+@use './normalize';
+@use './base';
+@use './tokens';
+// @use './utilities';
