@@ -22,11 +22,10 @@
 import logo from '@/assets/images/logo.svg'
 import { useChessBoard } from '@/composables/useChessBoard'
 
-const { board, clickedPositions, selectedSquares, selectSquare } = useChessBoard()
+const { board } = useChessBoard()
 </script>
 
 <style scoped lang="scss">
-@use '@/assets/styles/transitions.scss';
 @use '@/assets/styles/mixins' as mixins;
 
 .chessboard__layout {

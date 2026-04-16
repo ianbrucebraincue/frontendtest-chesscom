@@ -1,13 +1,14 @@
 import { ref, computed } from 'vue'
+import type { Square } from '@/types/chess'
 import { generateBoard } from '@/utils/chessBoardUtils'
 
 export function useChessBoard() {
-  const clickedPositions = ref([])
-  const selectedSquares = ref([])
+  const clickedPositions = ref<Square[]>([])
+  const selectedSquares = ref<Square[]>([])
 
   const board = computed(() => generateBoard())
 
-  const selectSquare = (square) => {
+  const selectSquare = (square: Square) => {
     // Only add to clickedPositions if it's not already active
     if (!selectedSquares.value.includes(square)) {
       clickedPositions.value = [...clickedPositions.value, square]
