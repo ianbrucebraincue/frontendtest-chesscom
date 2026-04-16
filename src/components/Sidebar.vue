@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { Square } from '@/types/chess'
 
-defineProps({
-  positions: { type: Array as () => Square[], required: true },
-})
-
 defineOptions({
   name: 'SidebarPanel',
+})
+
+defineProps({
+  positions: { type: Array as () => Square[], required: true },
 })
 </script>
 
@@ -16,8 +16,8 @@ defineOptions({
       <h2 key="title">
         {{
           positions.length < 1
-            ? 'Click any square to begin'
-            : `This is click ${positions.length + 1}...`
+            ? 'Select any square to begin'
+            : `Selection ${positions.length + 1}...`
         }}
       </h2>
     </Transition>

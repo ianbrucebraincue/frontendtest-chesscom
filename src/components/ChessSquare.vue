@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import type { Square } from '@/types/chess'
 
+defineOptions({
+  name: 'ChessSquare',
+})
+
 defineProps<{
   square: Square
   isSelected?: boolean
   showColumnLabel?: boolean
   showRowLabel?: boolean
 }>()
-
-defineOptions({
-  name: 'ChessSquare',
-})
 
 const emit = defineEmits<{
   (e: 'select', square: Square): void
