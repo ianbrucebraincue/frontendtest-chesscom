@@ -1,6 +1,18 @@
+<script setup lang="ts">
+import logo from '@/assets/images/logo.svg'
+import { useChessBoard } from '@/composables/useChessBoard'
+import ChessSquare from '@/components/ChessSquare.vue'
+import Sidebar from '@/components/Sidebar.vue'
+
+const { board, movePath, selectedSquares, selectSquare } = useChessBoard()
+
+defineOptions({
+  name: 'ChessBoard',
+})
+</script>
+
 <template>
   <div class="chessboard__layout">
-    <!-- Chessboard squares and pieces will be rendered here -->
     <div class="chessboard__layout__columns">
       <Transition name="slide" appear>
         <div class="chessboard__logo">
@@ -10,37 +22,54 @@
       <Transition name="slide" appear>
         <div class="chessboard__grid">
           <div v-for="(row, rowIndex) in board" :key="rowIndex" class="chessboard__row" role="row">
-            {{ row }}
+            <ChessSquare
+              v-for="(square, colIndex) in row"
+              :key="colIndex"
+              :square="square"
+              :isSelected="selectedSquares.includes(square)"
+              :showColumnLabel="rowIndex === board.length - 1"
+              :showRowLabel="colIndex === 0"
+              @select="selectSquare"
+            />
           </div>
         </div>
       </Transition>
     </div>
+    <Sidebar :positions="movePath" />
   </div>
 </template>
-
-<script setup lang="ts">
-import logo from '@/assets/images/logo.svg'
-import { useChessBoard } from '@/composables/useChessBoard'
-
-const { board } = useChessBoard()
-</script>
 
 <style scoped lang="scss">
 @use '@/assets/styles/mixins' as mixins;
 
 .chessboard__layout {
-  width: 100%;
-  height: 100%;
-  background-color: #f0d9b5;
   display: flex;
-  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  align-items: start;
+
+  @include mixins.up(mobile) {
+    flex-direction: column;
+    margin: 0;
+  }
 
   &__columns {
+    flex: 1;
     display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    max-height: 100%;
+    margin-left: var(--spacing-md);
+
+    @include mixins.up(mobile) {
+      margin: 0;
+      max-height: unset;
+      width: 100vw;
+    }
   }
+}
+
+.chessboard__logo {
+  margin-top: 15px;
 }
 
 .chessboard__grid {
@@ -55,5 +84,24 @@ const { board } = useChessBoard()
   @include mixins.up(mobile) {
     width: min(calc(100vw - 20px), calc(100vh - 85px));
   }
+}
+
+.chessboard__row {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+/* Light square */
+.chessboard__row:nth-child(odd) :deep(.chess-square:nth-child(odd)),
+.chessboard__row:nth-child(even) :deep(.chess-square:nth-child(even)) {
+  background: var(--color-square-light);
+  color: var(--color-square-dark);
+}
+
+/* Dark square */
+.chessboard__row:nth-child(odd) :deep(.chess-square:nth-child(even)),
+.chessboard__row:nth-child(even) :deep(.chess-square:nth-child(odd)) {
+  background: var(--color-square-dark);
+  color: var(--color-square-light);
 }
 </style>
