@@ -111,6 +111,3 @@ Welcome to the [Chess.com](https://chess.com) front end programming challenge!
 8. Include tests.
 
 Your submission will be rejected if any requirement is not met. Ask questions if a requirement is unclear.
-
-# Questions & Feedback
-Please contact Nick Kampa (nkampa@chess.com) with any questions or feedback regarding this challenge.
