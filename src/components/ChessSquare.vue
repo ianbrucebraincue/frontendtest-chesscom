@@ -59,7 +59,7 @@ const emit = defineEmits<{
   content: '';
   position: absolute;
   inset: 0;
-  border: 12px solid var(--color-highlight-border);
+  border: clamp(2px, 1.2cqw, 12px) solid var(--color-highlight-border);
   z-index: 5;
 }
 

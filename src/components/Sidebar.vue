@@ -3,25 +3,48 @@ defineOptions({
   name: 'SidebarPanel',
 })
 
+import { ref, watch, nextTick } from 'vue'
 import { useChessBoard } from '@/composables/useChessBoard'
 
 const { movePath } = useChessBoard()
+
+const itemRefs = ref<HTMLElement[]>([])
+
+watch(
+  () => movePath.value.length,
+  async () => {
+    await nextTick()
+
+    const last = itemRefs.value[itemRefs.value.length - 1]
+
+    if (!last) return
+
+    last.scrollIntoView({
+      behavior: 'smooth',
+      inline: 'end',
+      block: 'nearest',
+    })
+  },
+)
 </script>
 
 <template>
   <aside class="sidebar">
     <Transition name="fade" appear>
       <h2 key="title">
-        {{ movePath.length < 1 ? 'Click any square to begin' : `Click ${movePath.length + 1}...` }}
+        {{ movePath.length < 1 ? 'Click any square to begin' : undefined }}
       </h2>
     </Transition>
-    <ol>
-      <transition-group name="fade" tag="ol">
-        <li v-for="(position, index) in movePath" :key="index" class="sidebar__item">
-          {{ position }}
-        </li>
-      </transition-group>
-    </ol>
+    <transition-group name="fade" tag="ol" class="sidebar__list">
+      <li
+        v-for="(position, index) in movePath"
+        :key="index"
+        class="sidebar__item"
+        :ref="(el) => (itemRefs[index] = el as HTMLElement)"
+      >
+        {{ position }}
+      </li>
+    </transition-group>
   </aside>
 </template>
 
@@ -29,6 +52,7 @@ const { movePath } = useChessBoard()
 @use '@/assets/styles/mixins' as mixins;
 
 .sidebar {
+  position: relative;
   padding: 0 5px;
   margin: var(--spacing-sm) 0;
   width: 200px;
@@ -50,19 +74,66 @@ const { movePath } = useChessBoard()
     height: auto;
     max-height: auto;
     overflow-y: visible;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 50px;
+      height: 100%;
+      border-top-left-radius: var(--radius-lg);
+      border-bottom-left-radius: var(--radius-lg);
+      background: linear-gradient(to right, var(--color-sidebar-bg), transparent);
+      pointer-events: none;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 50px;
+      height: 100%;
+      border-top-right-radius: var(--radius-lg);
+      border-bottom-right-radius: var(--radius-lg);
+      background: linear-gradient(to left, var(--color-sidebar-bg), transparent);
+      pointer-events: none;
+    }
   }
 }
 
-ol {
-  padding-left: 1em;
-}
-ol li::marker {
-  color: var(--color-marker);
-  font-weight: normal;
-}
-.sidebar__item {
-  text-align: left;
-  padding-left: 1em;
-  margin-bottom: 0.5em;
+.sidebar__list {
+  position: relative;
+  overflow-y: auto;
+  @include mixins.up(mobile) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 1em;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .sidebar__item {
+    text-align: left;
+    padding-left: 1em;
+    padding-bottom: 1em;
+
+    @include mixins.up(mobile) {
+      padding-left: 0;
+      padding-right: 2em;
+      padding-bottom: 0;
+    }
+
+    &::marker {
+      color: var(--color-marker);
+      font-weight: normal;
+    }
+  }
 }
 </style>
