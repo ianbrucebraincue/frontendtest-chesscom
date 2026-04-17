@@ -1,29 +1,23 @@
 <script setup lang="ts">
-import type { Square } from '@/types/chess'
-
 defineOptions({
   name: 'SidebarPanel',
 })
 
-defineProps({
-  positions: { type: Array as () => Square[], required: true },
-})
+import { useChessBoard } from '@/composables/useChessBoard'
+
+const { movePath } = useChessBoard()
 </script>
 
 <template>
   <aside class="sidebar">
     <Transition name="fade" appear>
       <h2 key="title">
-        {{
-          positions.length < 1
-            ? 'Select any square to begin'
-            : `Selection ${positions.length + 1}...`
-        }}
+        {{ movePath.length < 1 ? 'Click any square to begin' : `Click ${movePath.length + 1}...` }}
       </h2>
     </Transition>
     <ol>
       <transition-group name="fade" tag="ol">
-        <li v-for="(position, index) in positions" :key="index" class="sidebar__item">
+        <li v-for="(position, index) in movePath" :key="index" class="sidebar__item">
           {{ position }}
         </li>
       </transition-group>

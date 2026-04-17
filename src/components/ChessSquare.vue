@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import type { Square } from '@/types/chess'
+import { computed } from 'vue'
 
 defineOptions({
   name: 'ChessSquare',
 })
 
-defineProps<{
+const props = defineProps<{
   square: Square
   isSelected?: boolean
   showColumnLabel?: boolean
   showRowLabel?: boolean
 }>()
+
+const file = computed(() => props.square[0])
+const rank = computed(() => props.square[1])
 
 const emit = defineEmits<{
   (e: 'select', square: Square): void
@@ -28,8 +32,8 @@ const emit = defineEmits<{
     @keydown.enter.prevent="emit('select', square)"
     @keydown.space.prevent="emit('select', square)"
   >
-    <span v-if="showColumnLabel" class="chess-square__letter">{{ square[0] }}</span>
-    <span v-if="showRowLabel" class="chess-square__number">{{ square[1] }}</span>
+    <span v-if="showColumnLabel" class="chess-square__letter">{{ file }}</span>
+    <span v-if="showRowLabel" class="chess-square__number">{{ rank }}</span>
   </div>
 </template>
 
