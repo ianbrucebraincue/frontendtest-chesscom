@@ -2,6 +2,13 @@
 
 ---
 
+## 🔗 Live Demo
+
+View the live application: [ianbruce-chess-test.netlify.app](https://ianbruce-chess-test.netlify.app/)
+
+
+---
+
 ## 📦 Project Setup
 
 Install dependencies:
