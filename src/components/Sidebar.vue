@@ -86,6 +86,7 @@ watch(
       border-bottom-left-radius: var(--radius-lg);
       background: linear-gradient(to right, var(--color-sidebar-bg), transparent);
       pointer-events: none;
+      z-index: 1;
     }
 
     &::after {
@@ -99,6 +100,7 @@ watch(
       border-bottom-right-radius: var(--radius-lg);
       background: linear-gradient(to left, var(--color-sidebar-bg), transparent);
       pointer-events: none;
+      z-index: 1;
     }
   }
 }
