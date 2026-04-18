@@ -31,7 +31,7 @@ watch(
 <template>
   <aside class="sidebar">
     <Transition name="fade" appear>
-      <h2 key="title">
+      <h2 class="sidebar__title" key="title">
         {{ movePath.length < 1 ? 'Click any square to begin' : undefined }}
       </h2>
     </Transition>
@@ -53,83 +53,86 @@ watch(
 
 .sidebar {
   position: relative;
+  width: 200px;
   padding: 0 5px;
   margin: var(--spacing-sm) 0;
-  width: 200px;
   flex-shrink: 0;
+
   height: calc(100vh - var(--spacing-sm) * 2);
   max-height: 100%;
-  background-color: var(--color-sidebar-bg);
-  border-top-left-radius: var(--radius-lg);
-  border-bottom-left-radius: var(--radius-lg);
   overflow-y: scroll;
+
+  background-color: var(--color-sidebar-bg);
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
 
   @include mixins.up(mobile) {
     width: calc(100vw - 20px);
     max-width: 100%;
-    padding: 10px;
     margin: 10px auto;
-    min-height: auto;
-    border-radius: var(--radius-lg);
-    height: auto;
-    max-height: auto;
+    padding: 10px;
+
+    height: 75px;
+    max-height: none;
     overflow-y: visible;
 
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 50px;
-      height: 100%;
-      border-top-left-radius: var(--radius-lg);
-      border-bottom-left-radius: var(--radius-lg);
-      background: linear-gradient(to right, var(--color-sidebar-bg), transparent);
-      pointer-events: none;
-      z-index: 1;
-    }
+    border-radius: var(--radius-lg);
 
+    &::before,
     &::after {
       content: '';
       position: absolute;
-      right: 0;
       top: 0;
       width: 50px;
       height: 100%;
-      border-top-right-radius: var(--radius-lg);
-      border-bottom-right-radius: var(--radius-lg);
-      background: linear-gradient(to left, var(--color-sidebar-bg), transparent);
       pointer-events: none;
       z-index: 1;
     }
-  }
-}
 
-.sidebar__list {
-  position: relative;
-  overflow-y: auto;
-  @include mixins.up(mobile) {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 1em;
-    scrollbar-width: none;
+    &::before {
+      left: 0;
+      border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+      background: linear-gradient(to right, var(--color-sidebar-bg), transparent);
+    }
 
-    &::-webkit-scrollbar {
-      display: none;
+    &::after {
+      right: 0;
+      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+      background: linear-gradient(to left, var(--color-sidebar-bg), transparent);
     }
   }
 
-  .sidebar__item {
-    text-align: left;
-    padding-left: 1em;
-    padding-bottom: 1em;
+  &__title {
+    font-size: 1.25em;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+  }
+
+  &__list {
+    position: relative;
+    overflow-y: auto;
 
     @include mixins.up(mobile) {
-      padding-left: 0;
-      padding-right: 2em;
-      padding-bottom: 0;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 1em;
+
+      overflow-x: auto;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+  &__item {
+    text-align: left;
+    line-height: 1.4;
+    padding: 0 0 1em 1em;
+
+    @include mixins.up(mobile) {
+      padding: 0 2em 0 0;
     }
 
     &::marker {
